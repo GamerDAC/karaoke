@@ -24,6 +24,11 @@ header {
     color: transparent;
 }
 
+#streak {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
 .container {
     max-width: 850px;
     margin: auto;
@@ -109,6 +114,7 @@ iframe {
 <body>
 
 <header>🎤 Karaoke 🎤</header>
+<div id="streak">🔥 Streak: 0</div>
 
 <div class="container">
     <input id="ytLink" placeholder="Paste YouTube link 🔗">
@@ -136,6 +142,10 @@ iframe {
 let lyrics = [];
 let index = 0;
 let timer;
+
+let streak = Number(localStorage.getItem("karaokeStreak")) || 0;
+const streakEl = document.getElementById("streak");
+streakEl.textContent = `🔥 Streak: ${streak}`;
 
 const lyricsArea = document.getElementById("lyricsArea");
 const lyricsInput = document.getElementById("lyricsInput");
@@ -173,6 +183,10 @@ function nextLine() {
 }
 
 function finishSong() {
+    streak++;
+    localStorage.setItem("karaokeStreak", streak);
+    streakEl.textContent = `🔥 Streak: ${streak}`;
+
     lyricsArea.innerHTML = `<div class="lyric-line">🎉 SONG COMPLETE!</div>`;
     document.getElementById("oneMore").style.display = "flex";
 
@@ -189,14 +203,24 @@ function finishSong() {
 function restartSong() {
     clearInterval(timer);
     document.getElementById("oneMore").style.display = "none";
+
+    // reset song but keep streak
     index = 0;
-    showLine();
+    lyricsArea.innerHTML = "";
+    videoHolder.innerHTML = "";
+    lyricsInput.value = "";
+    ytLink.value = "";
 }
 
 function stopAll() {
     clearInterval(timer);
-    document.getElementById("oneMore").style.display = "none";
-    lyricsArea.innerHTML = "";
+    window.close();
+
+    // fallback if browser blocks tab close
+    setTimeout(() => {
+        document.body.innerHTML =
+            "<h1>🎤 Thanks for singing!</h1><p>You can safely close this tab.</p>";
+    }, 200);
 }
 </script>
 
