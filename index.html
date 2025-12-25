@@ -2,179 +2,202 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>🎤 ColorPop Karaoke</title>
+<title>🎤 Karaoke 🎤</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- Fun Google Font -->
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&display=swap" rel="stylesheet">
 
 <style>
-    body {
-        margin: 0;
-        font-family: 'Baloo 2', system-ui, sans-serif;
-        background: radial-gradient(circle at top, #1a0033, #000);
-        color: white;
-        text-align: center;
-        overflow-x: hidden;
-    }
+body {
+    margin: 0;
+    font-family: 'Baloo 2', system-ui, sans-serif;
+    background: radial-gradient(circle at top, #1a0033, #000);
+    color: white;
+    text-align: center;
+}
 
-    header {
-        padding: 20px;
-        font-size: 2.5rem;
-        letter-spacing: 1px;
-        background: linear-gradient(90deg, #ff6ec4, #ffd93d, #6effa8);
-        -webkit-background-clip: text;
-        color: transparent;
-        text-shadow: 0 0 20px rgba(255,255,255,0.3);
-    }
+header {
+    padding: 20px;
+    font-size: 2.5rem;
+    background: linear-gradient(90deg, #ff6ec4, #ffd93d, #6effa8);
+    -webkit-background-clip: text;
+    color: transparent;
+}
 
-    .container {
-        max-width: 800px;
-        margin: auto;
-        padding: 20px;
-    }
+.container {
+    max-width: 850px;
+    margin: auto;
+    padding: 20px;
+}
 
-    input, textarea, button {
-        width: 100%;
-        max-width: 500px;
-        margin: 10px auto;
-        padding: 12px;
-        font-size: 1rem;
-        border-radius: 14px;
-        border: none;
-        outline: none;
-        font-family: inherit;
-    }
+input, textarea, button {
+    width: 100%;
+    max-width: 520px;
+    margin: 10px auto;
+    padding: 12px;
+    font-size: 1rem;
+    border-radius: 14px;
+    border: none;
+    font-family: inherit;
+}
 
-    textarea {
-        height: 120px;
-        resize: none;
-    }
+textarea { height: 120px; resize: none; }
 
-    button {
-        background: linear-gradient(135deg, #ff8bd5, #ffd86b);
-        color: #333;
-        font-weight: bold;
-        cursor: pointer;
-        transition: transform 0.15s, box-shadow 0.15s;
-    }
+button {
+    background: linear-gradient(135deg, #ff8bd5, #ffd86b);
+    font-weight: bold;
+    cursor: pointer;
+}
+button:hover { transform: scale(1.06); }
 
-    button:hover {
-        transform: scale(1.06);
-        box-shadow: 0 8px 25px rgba(255, 120, 200, 0.5);
-    }
+iframe {
+    width: 100%;
+    max-width: 520px;
+    height: 295px;
+    border-radius: 18px;
+    margin-top: 15px;
+    border: none;
+}
 
-    .lyrics-area {
-        margin-top: 40px;
-        min-height: 100px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+.lyrics-area {
+    margin-top: 40px;
+    min-height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-    .lyric-line {
-        font-size: clamp(2rem, 5vw, 3.2rem);
-        padding: 20px 30px;
-        border-radius: 20px;
-        background: linear-gradient(
-            270deg,
-            #ff5fd2,
-            #ffd93d,
-            #6effa8,
-            #5f9bff
-        );
-        background-size: 600% 600%;
-        animation: rainbowMove 6s ease infinite, popIn 0.4s ease;
-        color: #000;
-        box-shadow: 0 0 25px rgba(255,255,255,0.4);
-    }
+.lyric-line {
+    font-size: clamp(2rem, 5vw, 3.3rem);
+    padding: 22px 32px;
+    border-radius: 22px;
+    background: linear-gradient(270deg,#ff5fd2,#ffd93d,#6effa8,#5f9bff);
+    background-size: 600% 600%;
+    animation: rainbow 5s ease infinite, pop 0.3s ease;
+    color: #000;
+}
 
-    @keyframes rainbowMove {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-    }
+@keyframes rainbow {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@keyframes pop {
+    from { transform: scale(0.7); opacity: 0 }
+    to { transform: scale(1); opacity: 1 }
+}
 
-    @keyframes popIn {
-        from {
-            transform: scale(0.8);
-            opacity: 0;
-        }
-        to {
-            transform: scale(1);
-            opacity: 1;
-        }
-    }
+/* ONE MORE SONG MODAL */
+#oneMore {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
 
-    footer {
-        margin-top: 50px;
-        font-size: 0.8rem;
-        opacity: 0.7;
-    }
+#oneMoreBox {
+    background: #1a0033;
+    padding: 30px;
+    border-radius: 22px;
+    box-shadow: 0 0 40px #ff6ec4;
+}
 </style>
 </head>
 
 <body>
 
-<header>🎤 ColorPop Karaoke</header>
+<header>🎤 Karaoke 🎤</header>
 
 <div class="container">
-    <p>Upload a song • Paste lyrics • Tap along 🎶</p>
-
-    <input type="file" id="audioFile" accept="audio/*">
+    <input id="ytLink" placeholder="Paste YouTube link 🔗">
     <textarea id="lyricsInput" placeholder="One lyric line per line 🎵"></textarea>
 
     <button onclick="startKaraoke()">▶ Start</button>
-    <button onclick="nextLine()">✨ Next Lyric</button>
+    <button onclick="nextLine()">✨ Next</button>
 
-    <audio id="audio" controls style="margin-top:20px; width:100%; max-width:500px;"></audio>
-
+    <div id="videoHolder"></div>
     <div class="lyrics-area" id="lyricsArea"></div>
 </div>
 
-<footer>
-    Free • Colorful • No account • Just sing 💖
-</footer>
+<!-- ONE MORE SONG -->
+<div id="oneMore">
+    <div id="oneMoreBox">
+        <h2>One more song?</h2>
+        <p>Restarting in <span id="countdown">5</span>…</p>
+        <button onclick="restartSong()">▶ Let’s go</button>
+        <br><br>
+        <button onclick="stopAll()">Nah, I’m done</button>
+    </div>
+</div>
 
 <script>
-    const audio = document.getElementById("audio");
-    const audioFile = document.getElementById("audioFile");
-    const lyricsInput = document.getElementById("lyricsInput");
-    const lyricsArea = document.getElementById("lyricsArea");
+let lyrics = [];
+let index = 0;
+let timer;
 
-    let lyrics = [];
-    let index = 0;
+const lyricsArea = document.getElementById("lyricsArea");
+const lyricsInput = document.getElementById("lyricsInput");
+const ytLink = document.getElementById("ytLink");
+const videoHolder = document.getElementById("videoHolder");
 
-    audioFile.addEventListener("change", () => {
-        const file = audioFile.files[0];
-        if (file) audio.src = URL.createObjectURL(file);
-    });
+function getYouTubeID(url) {
+    const m = url.match(/(?:v=|\/)([0-9A-Za-z_-]{11})/);
+    return m ? m[1] : null;
+}
 
-    function startKaraoke() {
-        lyrics = lyricsInput.value.split("\n").filter(l => l.trim());
-        index = 0;
-        audio.currentTime = 0;
-        audio.play();
-        showLine();
+function startKaraoke() {
+    lyrics = lyricsInput.value.split("\n").filter(l => l.trim());
+    index = 0;
+
+    const id = getYouTubeID(ytLink.value);
+    if (id) {
+        videoHolder.innerHTML =
+        `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1" allow="autoplay"></iframe>`;
     }
+    showLine();
+}
 
-    function showLine() {
-        if (index >= lyrics.length) {
-            lyricsArea.innerHTML = `<div class="lyric-line">🎉 You did it!</div>`;
-            return;
-        }
-
-        lyricsArea.innerHTML = "";
-        const line = document.createElement("div");
-        line.className = "lyric-line";
-        line.textContent = lyrics[index];
-        lyricsArea.appendChild(line);
-        index++;
+function showLine() {
+    if (index >= lyrics.length) {
+        finishSong();
+        return;
     }
+    lyricsArea.innerHTML = `<div class="lyric-line">${lyrics[index]}</div>`;
+    index++;
+}
 
-    function nextLine() {
-        showLine();
-    }
+function nextLine() {
+    showLine();
+}
+
+function finishSong() {
+    lyricsArea.innerHTML = `<div class="lyric-line">🎉 SONG COMPLETE!</div>`;
+    document.getElementById("oneMore").style.display = "flex";
+
+    let count = 5;
+    document.getElementById("countdown").textContent = count;
+
+    timer = setInterval(() => {
+        count--;
+        document.getElementById("countdown").textContent = count;
+        if (count === 0) restartSong();
+    }, 1000);
+}
+
+function restartSong() {
+    clearInterval(timer);
+    document.getElementById("oneMore").style.display = "none";
+    index = 0;
+    showLine();
+}
+
+function stopAll() {
+    clearInterval(timer);
+    document.getElementById("oneMore").style.display = "none";
+    lyricsArea.innerHTML = "";
+}
 </script>
 
 </body>
